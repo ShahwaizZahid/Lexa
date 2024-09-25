@@ -9,6 +9,8 @@ def speak(text):
     engine.runAndWait()
 
 def processCommand(c):
+    print("Your command:", command)
+
     if "open google" in c.lower():
         webbrowser.open('https://www.google.com')
     elif "open facebook" in c.lower():
@@ -16,7 +18,9 @@ def processCommand(c):
     elif "open youtube" in c.lower():
         webbrowser.open('https://www.youtube.com')
     elif "open github" in c.lower():
-        webbrowser.open('https://www.github.com')    
+        webbrowser.open('https://www.github.com')
+    elif "open facebook" in c.lower():
+        webbrowser.open('https://www.facebook.com')        
 
 if __name__ == "__main__":
     speak("Initializing Lexa...")
@@ -29,12 +33,11 @@ if __name__ == "__main__":
                 print("Listening...")
                 audio = recognizer.listen(source, timeout=5, phrase_time_limit=3)
                 word = recognizer.recognize_google(audio)
-                print("You said:", word)
                 
                 # If you say "alexa", system replies "Ya"
                 if word.lower() == 'alexa':
                     speak('Ya')
-                    print("Alexa active")
+                    print("Alexa active speak command")
 
                     # Second listening for the command
                     with sr.Microphone() as source:
@@ -42,7 +45,6 @@ if __name__ == "__main__":
                         audio = recognizer.listen(source, timeout=5, phrase_time_limit=5)
                         try:
                             command = recognizer.recognize_google(audio)
-                            print("You said command:", command)
 
                             processCommand(command)
                         except sr.UnknownValueError:
