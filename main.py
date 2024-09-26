@@ -8,6 +8,7 @@ from gtts import gTTS
 import pygame
 import time
 import os
+import pyjokes
 import weatherInfo
 from dotenv import load_dotenv
 
@@ -49,6 +50,10 @@ def speak(text):
     
     os.remove('temp.mp3')
 
+def tell_joke():
+    joke = pyjokes.get_joke()
+    speak(joke)
+
 def processCommand(c):
     print("Your command:", command)
 
@@ -76,10 +81,11 @@ def processCommand(c):
     elif "weather" in c.lower():
         res = weatherInfo.Weather(c) 
         speak(res) 
+    elif "tell me a joke" in c.lower():
+        tell_joke()
     else:
      output = client.google_search(c) 
      speak(output)          
-
 
 # speak(re)        
 if __name__ == "__main__":
