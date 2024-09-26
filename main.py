@@ -1,6 +1,7 @@
 import speech_recognition as sr
 import pyttsx3
 import webbrowser
+import musicLibrary
 recognizer = sr.Recognizer()
 engine = pyttsx3.init()
 
@@ -20,7 +21,11 @@ def processCommand(c):
     elif "open github" in c.lower():
         webbrowser.open('https://www.github.com')
     elif "open facebook" in c.lower():
-        webbrowser.open('https://www.facebook.com')        
+        webbrowser.open('https://www.facebook.com')
+    elif c.lower().startswith('play'):
+        song = c.lower().split(' ')[1]
+        link = musicLibrary.music[song]  
+        webbrowser.open(link)          
 
 if __name__ == "__main__":
     speak("Initializing Lexa...")
