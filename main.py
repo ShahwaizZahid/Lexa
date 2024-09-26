@@ -2,12 +2,52 @@ import speech_recognition as sr
 import pyttsx3
 import webbrowser
 import musicLibrary
+import requests
+import client
+from gtts import gTTS
+import pygame
+import time
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+ApiKey = os.getenv('ApiKey')
+
 recognizer = sr.Recognizer()
 engine = pyttsx3.init()
 
-def speak(text):
+
+def speak_old(text):
     engine.say(text)
     engine.runAndWait()
+
+def speak(text):
+    tts = gTTS(text)
+    tts.save('temp.mp3')
+
+    # Initialize Pygame mixer
+    pygame.mixer.init()
+
+    # Load the MP3 file
+    pygame.mixer.music.load("temp.mp3")  # Replace 'your_file.mp3' with the path to your MP3 file
+
+    # Play the MP3 file
+    pygame.mixer.music.play()
+
+    # Optional: Keep the script running while the music is playing
+    # Wait for the music to finish playing
+    while pygame.mixer.music.get_busy():
+        time.sleep(1)
+
+    # Alternatively, you can use input to wait for user action
+    # input("Press Enter to stop the music...")
+    pygame.mixer.music.stop()  # Stop the music if you need to
+
+    # Quit the mixer
+    pygame.mixer.quit()
+    
+    os.remove('temp.mp3')
 
 def processCommand(c):
     print("Your command:", command)
@@ -25,7 +65,19 @@ def processCommand(c):
     elif c.lower().startswith('play'):
         song = c.lower().split(' ')[1]
         link = musicLibrary.music[song]  
-        webbrowser.open(link)          
+        webbrowser.open(link)
+    elif "news" in c.lower():
+        r = requests.get(f"https://newsapi.org/v2/top-headlines?country=us&apiKey={ApiKey}")
+        if r.status_code == 200:
+            data = r.json()
+            articles = data.get('articles', [])
+            for article in articles:
+                speak(article['title'])
+
+    else:
+     output = client.google_search(c) 
+     speak(output)          
+
 
 if __name__ == "__main__":
     speak("Initializing Lexa...")
