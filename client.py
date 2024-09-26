@@ -1,9 +1,12 @@
 import requests
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 def google_search(query):
-    api_key = 'AIzaSyASc1tK0Y_D3ds8uqUgxGYzFzaPD2sj8xQ'
-    cse_id = 'd1e5d3d599c2841b7'
+    api_key = os.getenv('api_key')
+    cse_id = os.getenv('cse_id')
     url = f"https://www.googleapis.com/customsearch/v1?key={api_key}&cx={cse_id}&q={query}"
 
     try:
