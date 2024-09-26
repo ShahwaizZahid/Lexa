@@ -8,6 +8,7 @@ from gtts import gTTS
 import pygame
 import time
 import os
+import weatherInfo
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -16,7 +17,6 @@ ApiKey = os.getenv('ApiKey')
 
 recognizer = sr.Recognizer()
 engine = pyttsx3.init()
-
 
 def speak_old(text):
     engine.say(text)
@@ -73,12 +73,15 @@ def processCommand(c):
             articles = data.get('articles', [])
             for article in articles:
                 speak(article['title'])
-
+    elif "weather" in c.lower():
+        res = weatherInfo.Weather(c) 
+        speak(res) 
     else:
      output = client.google_search(c) 
      speak(output)          
 
 
+# speak(re)        
 if __name__ == "__main__":
     speak("Initializing Lexa...")
     
