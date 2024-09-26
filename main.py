@@ -83,6 +83,10 @@ def processCommand(c):
         speak(res) 
     elif "tell me a joke" in c.lower():
         tell_joke()
+    elif "what time is it" in c.lower():
+        from datetime import datetime
+        current_time = datetime.now().strftime("%H:%M")
+        speak(f"The current time is {current_time}.")
     else:
      output = client.google_search(c) 
      speak(output)          
