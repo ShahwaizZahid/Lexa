@@ -57,16 +57,9 @@ def tell_joke():
 def processCommand(c):
     print("Your command:", command)
 
-    if "open google" in c.lower():
-        webbrowser.open('https://www.google.com')
-    elif "open facebook" in c.lower():
-        webbrowser.open('https://www.facebook.com')
-    elif "open youtube" in c.lower():
-        webbrowser.open('https://www.youtube.com')
-    elif "open github" in c.lower():
-        webbrowser.open('https://www.github.com')
-    elif "open facebook" in c.lower():
-        webbrowser.open('https://www.facebook.com')
+    if "open" in c.lower():
+        r = c.lower().split(" ")[1]
+        webbrowser.open(f"https://www.{r}.com")
     elif c.lower().startswith('play'):
         song = c.lower().split(' ')[1]
         link = musicLibrary.music[song]  
