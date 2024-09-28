@@ -1,0 +1,8 @@
+speechrecognition
+pyttsx3
+webbrowser
+pygame
+requests
+gtts
+pyjokes
+python-dotenv
